@@ -112,8 +112,8 @@ let rec f expr kankyou=
       let hikisuu=f arg2 kankyou in
       begin match kansuu with
         Vclo(x,t,env) -> (match hikisuu with
-             VNumber(n1) -> f t (set_value env x hikisuu)
-            |VBool(b1) -> f t (set_value env x hikisuu)
+             VNumber(n1) -> f t (set_value kankyou x hikisuu)
+            |VBool(b1) -> f t (set_value kankyou x hikisuu)
             | _ -> failwith("Argument is <fun>"))
        |_ ->failwith(to_string kansuu ^ " is not function")
       end
