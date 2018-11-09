@@ -8,7 +8,7 @@ type t = VNumber of int
 let rec to_string value = match value with
     VNumber (n) -> string_of_int n
   | VBool (b) -> if b then "true" else "false"
-  | Vclo(x,t,e) -> "clo <" ^ x ^ " , " ^ Syntax.to_string t ^ " , <fun> >"
+  | Vclo(x,t,e) -> "<fun>"
 
 (* プログラムの実行結果をプリントする関数 *)
 (* Value.print : Value.t -> unit *)

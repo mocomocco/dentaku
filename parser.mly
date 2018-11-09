@@ -46,11 +46,17 @@ simple_expr:
 | LPAREN expr RPAREN
 	{ $2 }
 
+app:
+| simple_expr simple_expr
+	{Syntax.App ($1 , $2)}
+| expr simple_expr
+	{Syntax.App ($1 , $2)}
+
 expr:
 | FUN VAR ARROW expr
 	{Syntax.Fun ($2,$4)}
-| expr simple_expr
-	{Syntax.App ($1 , $2)}
+| app
+	{$1}
 | LET VAR EQUAL expr IN expr
 	{ Syntax.Let ($2, $4, $6)}
 | simple_expr

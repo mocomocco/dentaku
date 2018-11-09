@@ -113,6 +113,7 @@ let rec f expr kankyou=
       begin match kansuu with
         Vclo(x,t,env) -> (match hikisuu with
              VNumber(n1) -> f t (set_value env x hikisuu)
-            | _ -> failwith("引数は数字で"))
-       |_ ->failwith("これは関数ではない")
+            |VBool(b1) -> f t (set_value env x hikisuu)
+            | _ -> failwith("Argument is <fun>"))
+       |_ ->failwith(to_string kansuu ^ " is not function")
       end
