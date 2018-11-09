@@ -100,20 +100,22 @@ let rec f expr kankyou=
     end
   | Let (arg1, arg2, arg3) ->(*let arg1 = arg2 in arg3 ex: let x=3 in x+2*)
       let atai= f arg2 kankyou in
-      begin match atai with
+        f arg3 (set_value kankyou arg1 atai)
+(*      begin match atai with
         VNumber(n1)-> f arg3 (set_value kankyou arg1 atai)
       | VBool(b1) -> failwith("boolは無理")
       | Vclo(x,t,env) -> f arg3 (set_value kankyou arg1 atai)
-      end
+      end*)
   | Fun (arg1, arg2) ->(*fun arg1:string -> arg2:expr  ex: fun x ->x+1*)
       Vclo(arg1,arg2,kankyou)
   | App (arg1, arg2) ->(*arg1 arg2*)
       let kansuu=f arg1 kankyou in
       let hikisuu=f arg2 kankyou in
       begin match kansuu with
-        Vclo(x,t,env) -> (match hikisuu with
-             VNumber(n1) -> f t (set_value kankyou x hikisuu)
-            |VBool(b1) -> f t (set_value kankyou x hikisuu)
-            | _ -> failwith("Argument is <fun>"))
+        Vclo(x,t,env) -> f t (set_value env x hikisuu)
+          (*(match hikisuu with
+             VNumber(n1) -> f t (set_value env x hikisuu)
+            |VBool(b1) -> f t (set_value env x hikisuu)
+            | _ -> failwith("Argument is <fun>"))*)
        |_ ->failwith(to_string kansuu ^ " is not function")
       end
