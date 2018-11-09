@@ -2,7 +2,7 @@ type ('a, 'b) t = ('a * 'b) list
 
 let empty=[]
 
-let get kankyou hensuu = List.assoc hensuu kankyou
+let get kankyou hensuu = List.assoc hensuu kankyou 
 
 (*val get : ('a, 'b) t -> 'a -> 'b*)
 	(* 使い方：get env var *)

@@ -18,7 +18,9 @@ type t = Number of int
        | Var of string
        | Op of t * op_t * t
        | If of t * t * t
-       | Let of string * t* t
+       | Let of string * t * t
+       | Fun of string * t
+       | App of t * t
 
 
 
@@ -34,6 +36,8 @@ let rec to_string exp = match exp with
 	    ^ to_string arg2 ^ ")"
   | If (arg1, arg2, arg3) -> " if " ^ to_string arg1 ^ " then " ^ to_string arg2 ^ " else " ^to_string arg3
   | Let (arg1, arg2, arg3) -> "let "^ arg1 ^ " = " ^to_string arg2 ^ " in " ^to_string arg3
+  | Fun (arg1,arg2) -> " fun " ^ arg1 ^ " -> " ^ to_string arg2
+  | App (arg1 , arg2) -> to_string arg1 ^" " ^ to_string arg2
 
 (* プログラムをプリントする関数 *)
 (* Syntax.print : Syntax.t -> unit *)

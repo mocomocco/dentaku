@@ -15,6 +15,8 @@ type token =
   | ELSE
   | LET
   | IN
+  | FUN
+  | ARROW
   | NUMBER of (int)
   | VAR of (string)
   | TRUE

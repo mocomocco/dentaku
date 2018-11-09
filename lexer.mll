@@ -33,6 +33,8 @@ rule token = parse
 | "else"	{ELSE}
 | "let"	{LET}
 | "in"	{IN}
+| "fun"	{FUN}
+| "->"	{ARROW}
 | lower (alpha* digit*)*	{VAR(Lexing.lexeme lexbuf)}
 | digit+                        (* 数字が１個以上 *)
 	 { NUMBER (int_of_string (Lexing.lexeme lexbuf)) }

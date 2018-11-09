@@ -5,7 +5,7 @@
 /* 以降、どういうわけかコメントが C 式になることに注意 */
 /* トークンの定義 */
 %token LPAREN RPAREN
-%token PLUS MINUS TIMES EQUAL LESS MORE LESSEQUAL MOREEQUAL NOTEQUAL IF THEN ELSE LET IN
+%token PLUS MINUS TIMES EQUAL LESS MORE LESSEQUAL MOREEQUAL NOTEQUAL IF THEN ELSE LET IN FUN ARROW
 %token <int> NUMBER
 %token <string> VAR
 /* これは、数字には int 型の値が伴うことを示している */
@@ -21,6 +21,7 @@
 
 /* 演算子の優先順位を指定する */
 /* 下に行くほど強く結合する */
+%nonassoc ARROW
 %nonassoc IN
 %nonassoc ELSE
 %left EQUAL LESS NOTEQUAL LESSEQUAL MOREEQUAL MORE
@@ -46,6 +47,10 @@ simple_expr:
 	{ $2 }
 
 expr:
+| FUN VAR ARROW expr
+	{Syntax.Fun ($2,$4)}
+| expr simple_expr
+	{Syntax.App ($1 , $2)}
 | LET VAR EQUAL expr IN expr
 	{ Syntax.Let ($2, $4, $6)}
 | simple_expr
