@@ -98,5 +98,5 @@ let rec f expr kankyou=
       let hikisuu=f arg2 kankyou in
       begin match kansuu with
         Vclo(x,t,env) -> f t (set_value env x hikisuu)
-       |_ ->failwith(to_string kansuu ^ " is not function")
+       |_ ->failwith(to_string kansuu ^ " is not a function")
       end
