@@ -10,6 +10,7 @@ let digit = ['0'-'9']
 let lower = ['a'-'z']
 let upper = ['A'-'Z']
 let alpha = lower | upper
+let bar = ['_']
 
 rule token = parse
 | space+ { token lexbuf }       (* スペースは読み飛ばす *)
@@ -35,7 +36,7 @@ rule token = parse
 | "in"	{IN}
 | "fun"	{FUN}
 | "->"	{ARROW}
-| lower (alpha* digit*)*	{VAR(Lexing.lexeme lexbuf)}
+| lower (alpha* digit* bar*)*	{VAR(Lexing.lexeme lexbuf)}
 | digit+                        (* 数字が１個以上 *)
 	 { NUMBER (int_of_string (Lexing.lexeme lexbuf)) }
 | eof	 { EOF }                (* 入力終了 *)
