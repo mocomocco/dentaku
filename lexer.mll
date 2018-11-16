@@ -35,6 +35,7 @@ rule token = parse
 | "let"	{LET}
 | "in"	{IN}
 | "fun"	{FUN}
+| "rec" {REC}
 | "->"	{ARROW}
 | lower (alpha* digit* bar*)*	{VAR(Lexing.lexeme lexbuf)}
 | digit+                        (* 数字が１個以上 *)

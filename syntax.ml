@@ -21,6 +21,7 @@ type t = Number of int
        | Let of string * t * t
        | Fun of string * t
        | App of t * t
+       | Rec of string * string * t * t
 
 
 
@@ -38,6 +39,7 @@ let rec to_string exp = match exp with
   | Let (arg1, arg2, arg3) -> "let "^ arg1 ^ " = " ^to_string arg2 ^ " in " ^to_string arg3
   | Fun (arg1,arg2) -> " fun " ^ arg1 ^ " -> " ^ to_string arg2
   | App (arg1 , arg2) -> to_string arg1 ^" " ^ to_string arg2
+  | Rec (arg1 , arg2 , arg3 , arg4) -> "let rec "^arg1 ^" "^arg2 ^" = " ^ to_string arg3 ^ " in "^to_string arg4
 
 (* プログラムをプリントする関数 *)
 (* Syntax.print : Syntax.t -> unit *)

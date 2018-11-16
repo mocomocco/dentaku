@@ -97,6 +97,15 @@ let rec f expr kankyou=
       let kansuu=f arg1 kankyou in
       let hikisuu=f arg2 kankyou in
       begin match kansuu with
-        Vclo(x,t,env) -> f t (set_value env x hikisuu)
+        Vclo(x,t,env) ->   f t (set_value env x hikisuu)
+       |VcloR(g,x,t,env) ->
+          (*tを解釈*)let genv = (set_value env g kansuu)  in
+              let newenv = set_value genv x hikisuu in
+                f t newenv
        |_ ->failwith(to_string kansuu ^ " is not a function")
       end
+  | Rec (arg1, arg2, arg3,arg4) ->(*let rec arg1 arg2 = arg3 in arg4 ex: let x=3 in x+2*)
+(*      let newenv =set_value kankyou arg1 (VcloR(arg1,arg2,arg3,kankyou)) in
+      let atai= f arg3  newenv in
+        f arg4 (set_value newenv arg1 atai)*)
+	f arg4 (set_value kankyou arg1 (VcloR(arg1,arg2,arg3,kankyou)))

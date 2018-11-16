@@ -17,6 +17,7 @@ type token =
   | IN
   | FUN
   | ARROW
+  | REC
   | NUMBER of (int)
   | VAR of (string)
   | TRUE

@@ -5,7 +5,7 @@
 /* 以降、どういうわけかコメントが C 式になることに注意 */
 /* トークンの定義 */
 %token LPAREN RPAREN
-%token PLUS MINUS TIMES EQUAL LESS MORE LESSEQUAL MOREEQUAL NOTEQUAL IF THEN ELSE LET IN FUN ARROW
+%token PLUS MINUS TIMES EQUAL LESS MORE LESSEQUAL MOREEQUAL NOTEQUAL IF THEN ELSE LET IN FUN ARROW REC
 %token <int> NUMBER
 %token <string> VAR
 /* これは、数字には int 型の値が伴うことを示している */
@@ -57,6 +57,8 @@ expr:
 	{Syntax.Fun ($2,$4)}
 | app
 	{$1}
+| LET REC VAR VAR EQUAL expr IN expr
+	{ Syntax.Rec ($3, $4, $6, $8)}
 | LET VAR EQUAL expr IN expr
 	{ Syntax.Let ($2, $4, $6)}
 | simple_expr
