@@ -18,6 +18,13 @@ type token =
   | FUN
   | ARROW
   | REC
+  | LNIL
+  | RNIL
+  | CONS
+  | MATCH
+  | WITH
+  | OR
+  | COLON
   | NUMBER of (int)
   | VAR of (string)
   | TRUE

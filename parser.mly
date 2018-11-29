@@ -5,7 +5,7 @@
 /* 以降、どういうわけかコメントが C 式になることに注意 */
 /* トークンの定義 */
 %token LPAREN RPAREN
-%token PLUS MINUS TIMES EQUAL LESS MORE LESSEQUAL MOREEQUAL NOTEQUAL IF THEN ELSE LET IN FUN ARROW REC
+%token PLUS MINUS TIMES EQUAL LESS MORE LESSEQUAL MOREEQUAL NOTEQUAL IF THEN ELSE LET IN FUN ARROW REC LNIL RNIL CONS MATCH WITH OR COLON
 %token <int> NUMBER
 %token <string> VAR
 /* これは、数字には int 型の値が伴うことを示している */
@@ -21,6 +21,7 @@
 
 /* 演算子の優先順位を指定する */
 /* 下に行くほど強く結合する */
+%left CONS
 %nonassoc ARROW
 %nonassoc IN
 %nonassoc ELSE
@@ -34,6 +35,22 @@
 /* 以下の %% は省略不可。それ以降に文法規則を書く */
 %%
 
+list_contents:
+/*| expr RNIL
+  {Syntax.Cons($1,Syntax.Nil)}
+| expr COLON list_contents
+  {Syntax.Cons($1,$3)}*/
+| simple_expr RNIL
+  {Syntax.Cons($1,Syntax.Nil)}
+| simple_expr COLON list_contents
+  {Syntax.Cons($1,$3)}
+| minus RNIL
+  {Syntax.Cons($1,Syntax.Nil)}
+| minus COLON list_contents
+  {Syntax.Cons($1,$3)}
+
+
+
 simple_expr:
 | NUMBER
 	{ Syntax.Number ($1) }
@@ -45,6 +62,18 @@ simple_expr:
 	{ Syntax.Bool (false) }
 | LPAREN expr RPAREN
 	{ $2 }
+| LNIL RNIL
+	{Syntax.Nil}
+| simple_expr CONS expr
+	{ Syntax.Cons($1,$3)}
+| LNIL simple_expr COLON list_contents
+  {Syntax.Cons ($2,$4)}
+/*| minus CONS list_contents
+	{ Syntax.Cons($1,$3)}*/
+| LNIL minus COLON list_contents
+  {Syntax.Cons ($2,$4)}
+
+
 
 app:
 | simple_expr simple_expr
@@ -52,9 +81,17 @@ app:
 | expr simple_expr
 	{Syntax.App ($1 , $2)}
 
+minus:
+| MINUS expr %prec UNARY
+	{ Syntax.Op (Syntax.Number (0), Syntax.Minus, $2) }
+
 expr:
 | FUN VAR ARROW expr
 	{Syntax.Fun ($2,$4)}
+|minus
+  {$1}
+| minus CONS expr
+	{ Syntax.Cons($1,$3)}
 | app
 	{$1}
 | LET REC VAR VAR EQUAL expr IN expr
@@ -83,5 +120,8 @@ expr:
 	{ Syntax.Op ($3, Syntax.Notequal, $1) }
 | IF expr THEN expr ELSE expr
 	{ Syntax.If ($2, $4, $6)}
-| MINUS expr %prec UNARY
-	{ Syntax.Op (Syntax.Number (0), Syntax.Minus, $2) }
+| MATCH expr WITH LNIL RNIL ARROW expr OR VAR CONS VAR ARROW expr
+	{ Syntax.Match ($2, $7, $9 , $11 , $13)}
+
+/*| MINUS expr %prec UNARY
+	{ Syntax.Op (Syntax.Number (0), Syntax.Minus, $2) }*/
