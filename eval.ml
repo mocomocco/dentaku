@@ -16,7 +16,7 @@ let rec f expr kankyou=
     match expr with
       Number (n) -> VNumber (n)
     | Bool (b) -> VBool (b)
-    | Nil -> Emptylist
+    | Nil -> Tlist(Emptylist)
     | Var(name) -> get_value kankyou name
     | Op (arg1, Plus, arg2) ->
       let v1 = f arg1 kankyou in
@@ -29,12 +29,12 @@ let rec f expr kankyou=
       end
     |Cons(t1,t2) ->
      let vt1= f t1 kankyou in
-     let vt2= f t2 kankyou in List(vt1,vt2)
+     let vt2= f t2 kankyou in Tlist(List(vt1,vt2))
     |Match (t1, t2 , str1 , str2 , t3) ->(*ex:  match t1 with [] -> t2 | str1 ::str2 ->t3*)
       let vt1 = f t1 kankyou in
       begin  match vt1 with
-         Emptylist -> f t2 kankyou
-        | List (first, rest) ->
+         Tlist(Emptylist) -> f t2 kankyou
+        | Tlist(List (first, rest)) ->
            let newenv1=set_value kankyou str1 first in
            let newenv2= set_value newenv1 str2 rest in
            f t3 newenv2

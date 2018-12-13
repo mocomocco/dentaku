@@ -21,7 +21,7 @@
 
 /* 演算子の優先順位を指定する */
 /* 下に行くほど強く結合する */
-%left CONS
+%right CONS
 %nonassoc ARROW
 %nonassoc IN
 %nonassoc ELSE
@@ -36,18 +36,18 @@
 %%
 
 list_contents:
-/*| expr RNIL
+| expr RNIL
   {Syntax.Cons($1,Syntax.Nil)}
 | expr COLON list_contents
-  {Syntax.Cons($1,$3)}*/
-| simple_expr RNIL
+  {Syntax.Cons($1,$3)}
+/*| simple_expr RNIL
   {Syntax.Cons($1,Syntax.Nil)}
 | simple_expr COLON list_contents
   {Syntax.Cons($1,$3)}
 | minus RNIL
   {Syntax.Cons($1,Syntax.Nil)}
 | minus COLON list_contents
-  {Syntax.Cons($1,$3)}
+  {Syntax.Cons($1,$3)}*/
 
 
 
@@ -64,12 +64,12 @@ simple_expr:
 	{ $2 }
 | LNIL RNIL
 	{Syntax.Nil}
+| LNIL simple_expr RNIL
+  { Syntax.Cons ($2,Syntax.Nil)}
 | simple_expr CONS expr
 	{ Syntax.Cons($1,$3)}
-| LNIL simple_expr COLON list_contents
+| LNIL expr COLON list_contents
   {Syntax.Cons ($2,$4)}
-/*| minus CONS list_contents
-	{ Syntax.Cons($1,$3)}*/
 | LNIL minus COLON list_contents
   {Syntax.Cons ($2,$4)}
 

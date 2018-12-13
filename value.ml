@@ -1,11 +1,13 @@
 (* Value.t : プログラムの実行結果を表す型 *)
 
+type 'a lst=Emptylist
+           | List of 'a * 'a 
+
 type t = VNumber of int
        | VBool of bool
        | Vclo of string * Syntax.t * ((string , t) Env.t)
        | VcloR of string * string * Syntax.t * ((string , t) Env.t)
-       | Emptylist
-       | List of  t * t
+       | Tlist of t lst
 
 
 (*type l= VNumber of int*)
@@ -17,8 +19,8 @@ let rec to_string value = match value with
   | VBool (b) -> if b then "true" else "false"
   | Vclo(x,t,e) -> "<fun>"
   | VcloR(g,x,t,e) -> "<fun>"
-  | Emptylist -> "[]"
-  | List (t1,t2) -> to_string t1 ^ " :: " ^ to_string t2
+  | Tlist(Emptylist) -> "[]"
+  | Tlist(List (t1,t2)) -> to_string t1 ^ " :: " ^ to_string t2
 
 (* プログラムの実行結果をプリントする関数 *)
 (* Value.print : Value.t -> unit *)
