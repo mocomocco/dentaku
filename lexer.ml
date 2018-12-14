@@ -855,132 +855,132 @@ and __ocaml_lex_token_rec lexbuf __ocaml_lex_state =
 # 856 "lexer.ml"
 
   | 8 ->
-# 25 "lexer.mll"
+# 26 "lexer.mll"
         ( NOTEQUAL )
 # 861 "lexer.ml"
 
   | 9 ->
-# 26 "lexer.mll"
+# 27 "lexer.mll"
        ( LESS )
 # 866 "lexer.ml"
 
   | 10 ->
-# 27 "lexer.mll"
+# 28 "lexer.mll"
        ( MORE )
 # 871 "lexer.ml"
 
   | 11 ->
-# 28 "lexer.mll"
+# 29 "lexer.mll"
         ( LESSEQUAL )
 # 876 "lexer.ml"
 
   | 12 ->
-# 29 "lexer.mll"
+# 30 "lexer.mll"
         ( MOREEQUAL )
 # 881 "lexer.ml"
 
   | 13 ->
-# 30 "lexer.mll"
+# 31 "lexer.mll"
          ( TRUE )
 # 886 "lexer.ml"
 
   | 14 ->
-# 31 "lexer.mll"
+# 32 "lexer.mll"
          ( FALSE )
 # 891 "lexer.ml"
 
   | 15 ->
-# 32 "lexer.mll"
+# 33 "lexer.mll"
        (IF)
 # 896 "lexer.ml"
 
   | 16 ->
-# 33 "lexer.mll"
+# 34 "lexer.mll"
          (THEN)
 # 901 "lexer.ml"
 
   | 17 ->
-# 34 "lexer.mll"
+# 35 "lexer.mll"
          (ELSE)
 # 906 "lexer.ml"
 
   | 18 ->
-# 35 "lexer.mll"
+# 36 "lexer.mll"
         (LET)
 # 911 "lexer.ml"
 
   | 19 ->
-# 36 "lexer.mll"
+# 37 "lexer.mll"
        (IN)
 # 916 "lexer.ml"
 
   | 20 ->
-# 37 "lexer.mll"
+# 38 "lexer.mll"
         (FUN)
 # 921 "lexer.ml"
 
   | 21 ->
-# 38 "lexer.mll"
+# 39 "lexer.mll"
         (REC)
 # 926 "lexer.ml"
 
   | 22 ->
-# 39 "lexer.mll"
+# 40 "lexer.mll"
        (ARROW)
 # 931 "lexer.ml"
 
   | 23 ->
-# 40 "lexer.mll"
+# 41 "lexer.mll"
       (LNIL)
 # 936 "lexer.ml"
 
   | 24 ->
-# 41 "lexer.mll"
+# 42 "lexer.mll"
       (RNIL)
 # 941 "lexer.ml"
 
   | 25 ->
-# 42 "lexer.mll"
+# 43 "lexer.mll"
        (CONS)
 # 946 "lexer.ml"
 
   | 26 ->
-# 43 "lexer.mll"
+# 44 "lexer.mll"
       (COLON)
 # 951 "lexer.ml"
 
   | 27 ->
-# 44 "lexer.mll"
+# 45 "lexer.mll"
           (MATCH)
 # 956 "lexer.ml"
 
   | 28 ->
-# 45 "lexer.mll"
+# 46 "lexer.mll"
          (WITH)
 # 961 "lexer.ml"
 
   | 29 ->
-# 46 "lexer.mll"
+# 50 "lexer.mll"
       (OR)
 # 966 "lexer.ml"
 
   | 30 ->
-# 47 "lexer.mll"
+# 51 "lexer.mll"
                               (VAR(Lexing.lexeme lexbuf))
 # 971 "lexer.ml"
 
   | 31 ->
-# 49 "lexer.mll"
+# 53 "lexer.mll"
   ( NUMBER (int_of_string (Lexing.lexeme lexbuf)) )
 # 976 "lexer.ml"
 
   | 32 ->
-# 50 "lexer.mll"
+# 54 "lexer.mll"
        ( EOF )
 # 981 "lexer.ml"
 
   | 33 ->
-# 51 "lexer.mll"
+# 55 "lexer.mll"
      ( failwith ("unknown token: " ^ Lexing.lexeme lexbuf) )
 # 986 "lexer.ml"
 

@@ -5,7 +5,7 @@
 /* 以降、どういうわけかコメントが C 式になることに注意 */
 /* トークンの定義 */
 %token LPAREN RPAREN
-%token PLUS MINUS TIMES EQUAL LESS MORE LESSEQUAL MOREEQUAL NOTEQUAL IF THEN ELSE LET IN FUN ARROW REC LNIL RNIL CONS MATCH WITH OR COLON
+%token PLUS MINUS TIMES EQUAL LESS MORE LESSEQUAL MOREEQUAL NOTEQUAL IF THEN ELSE LET IN FUN ARROW REC LNIL RNIL CONS MATCH WITH OR COLON /*DIVIDE RAISE TRY ERROR*/
 %token <int> NUMBER
 %token <string> VAR
 /* これは、数字には int 型の値が伴うことを示している */
@@ -40,16 +40,6 @@ list_contents:
   {Syntax.Cons($1,Syntax.Nil)}
 | expr COLON list_contents
   {Syntax.Cons($1,$3)}
-/*| simple_expr RNIL
-  {Syntax.Cons($1,Syntax.Nil)}
-| simple_expr COLON list_contents
-  {Syntax.Cons($1,$3)}
-| minus RNIL
-  {Syntax.Cons($1,Syntax.Nil)}
-| minus COLON list_contents
-  {Syntax.Cons($1,$3)}*/
-
-
 
 simple_expr:
 | NUMBER
@@ -85,12 +75,24 @@ minus:
 | MINUS expr %prec UNARY
 	{ Syntax.Op (Syntax.Number (0), Syntax.Minus, $2) }
 
+op:
+| expr PLUS expr
+	{ Syntax.Op ($1, Syntax.Plus, $3) }
+| expr MINUS expr
+	{ Syntax.Op ($1, Syntax.Minus, $3) }
+| expr TIMES expr
+	{ Syntax.Op ($1, Syntax.Times, $3) }
+| expr EQUAL expr
+	{ Syntax.Op ($1, Syntax.Equal, $3) }
+
 expr:
 | FUN VAR ARROW expr
 	{Syntax.Fun ($2,$4)}
-|minus
+| minus
   {$1}
 | minus CONS expr
+	{ Syntax.Cons($1,$3)}
+| expr CONS expr
 	{ Syntax.Cons($1,$3)}
 | app
 	{$1}
@@ -100,14 +102,8 @@ expr:
 	{ Syntax.Let ($2, $4, $6)}
 | simple_expr
 	{ $1 }
-| expr PLUS expr
-	{ Syntax.Op ($1, Syntax.Plus, $3) }
-| expr MINUS expr
-	{ Syntax.Op ($1, Syntax.Minus, $3) }
-| expr TIMES expr
-	{ Syntax.Op ($1, Syntax.Times, $3) }
-| expr EQUAL expr
-	{ Syntax.Op ($1, Syntax.Equal, $3) }
+| op
+	{$1}
 | expr LESS expr
 	{ Syntax.Op ($1, Syntax.Less, $3) }
 | expr MORE expr
@@ -122,6 +118,3 @@ expr:
 	{ Syntax.If ($2, $4, $6)}
 | MATCH expr WITH LNIL RNIL ARROW expr OR VAR CONS VAR ARROW expr
 	{ Syntax.Match ($2, $7, $9 , $11 , $13)}
-
-/*| MINUS expr %prec UNARY
-	{ Syntax.Op (Syntax.Number (0), Syntax.Minus, $2) }*/

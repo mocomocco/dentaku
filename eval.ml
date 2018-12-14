@@ -9,7 +9,11 @@ let set_value kankyou namae atai =extend kankyou namae atai
 let rec get_value kankyou namae= try get kankyou namae with
 	Not_found->failwith("Unbound variable: "^namae)
 
-
+(*
+let rec eval exp env cont = match exp with
+|Num(n)->cont (VNumber (n))
+|Plus(t1,t2)->eval t1 env (fun v1 -> eval t2 env (fun v2 -> cont(v1+v2)))
+*)
 (* 実際の計算をする関数 *)
 (* Eval.f : Syntax.t -> Value.t *)
 let rec f expr kankyou=
