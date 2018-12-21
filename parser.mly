@@ -5,7 +5,7 @@
 /* 以降、どういうわけかコメントが C 式になることに注意 */
 /* トークンの定義 */
 %token LPAREN RPAREN
-%token PLUS MINUS TIMES EQUAL LESS MORE LESSEQUAL MOREEQUAL NOTEQUAL IF THEN ELSE LET IN FUN ARROW REC LNIL RNIL CONS MATCH WITH OR COLON /*DIVIDE RAISE TRY ERROR*/
+%token PLUS MINUS TIMES EQUAL LESS MORE LESSEQUAL MOREEQUAL NOTEQUAL IF THEN ELSE LET IN FUN ARROW REC LNIL RNIL CONS MATCH WITH OR COLON DIVIDE RAISE TRY ERROR EXCEPTION
 %token <int> NUMBER
 %token <string> VAR
 /* これは、数字には int 型の値が伴うことを示している */
@@ -84,6 +84,8 @@ op:
 	{ Syntax.Op ($1, Syntax.Times, $3) }
 | expr EQUAL expr
 	{ Syntax.Op ($1, Syntax.Equal, $3) }
+| expr DIVIDE expr
+	{ Syntax.Op ($1, Syntax.Divide, $3) }
 
 expr:
 | FUN VAR ARROW expr
@@ -118,3 +120,7 @@ expr:
 	{ Syntax.If ($2, $4, $6)}
 | MATCH expr WITH LNIL RNIL ARROW expr OR VAR CONS VAR ARROW expr
 	{ Syntax.Match ($2, $7, $9 , $11 , $13)}
+| RAISE LPAREN EXCEPTION expr RPAREN
+  { Syntax.Raise($4)}
+| TRY expr WITH EXCEPTION VAR ARROW expr
+  {Syntax.Try($2,$5,$7)}

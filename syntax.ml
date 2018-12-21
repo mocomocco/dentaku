@@ -1,5 +1,5 @@
 (* op_t : ２項演算子の型 *)
-type op_t = Plus | Minus | Times | Equal | Less | Lessequal | Notequal
+type op_t = Plus | Minus | Times | Equal | Less | Lessequal | Notequal | Divide
 
 (* ２項演算子を文字列にする関数 *)
 (* op_to_string : op_t -> string *)
@@ -11,6 +11,7 @@ let op_to_string op = match op with
   | Less -> " < "
   | Lessequal -> " <= "
   | Notequal -> " <> "
+  | Divide -> " / "
 
 (* Syntax.t : プログラムを表す型 *)
 type t = Number of int
@@ -25,6 +26,8 @@ type t = Number of int
        | Nil
        | Cons of t * t
        | Match of t * t * string * string * t
+       | Raise of t
+       | Try of t * string * t
 
 (* プログラムを文字列にする関数 *)
 (* Syntax.to_string : Syntax.t -> string *)

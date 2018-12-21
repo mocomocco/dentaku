@@ -1,13 +1,18 @@
 (* Value.t : プログラムの実行結果を表す型 *)
 
 type 'a lst=Emptylist
-           | List of 'a * 'a 
+           | List of 'a * 'a
 
 type t = VNumber of int
        | VBool of bool
        | Vclo of string * Syntax.t * ((string , t) Env.t)
        | VcloR of string * string * Syntax.t * ((string , t) Env.t)
        | Tlist of t lst
+(*       | VCont of (t -> t) (* continuation value *)
+       | VDCont of (t -> t) (* delimited continuation value *)*)
+
+type result= Exception of int
+       |OK of t
 
 
 (*type l= VNumber of int*)

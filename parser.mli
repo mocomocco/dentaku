@@ -25,6 +25,11 @@ type token =
   | WITH
   | OR
   | COLON
+  | DIVIDE
+  | RAISE
+  | TRY
+  | ERROR
+  | EXCEPTION
   | NUMBER of (int)
   | VAR of (string)
   | TRUE

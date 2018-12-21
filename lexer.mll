@@ -22,7 +22,7 @@ rule token = parse
 | "-"	 { MINUS }
 | "*"	 { TIMES }
 | "="	 { EQUAL }
-(*| "/"	 { DIVIDE }*)
+| "/"	 { DIVIDE }
 | "<>"	 { NOTEQUAL }
 | "<"	 { LESS }
 | ">"	 { MORE }
@@ -44,9 +44,10 @@ rule token = parse
 | ";" {COLON}
 | "match" {MATCH}
 | "with" {WITH}
-(*| "raise"	{RAISE}
+| "raise"	{RAISE}
 | "try"	 {TRY}
-| "Error"	{ERROR}*)
+| "Error"	{ERROR}
+| "Exception" {EXCEPTION}
 | "|" {OR}
 | lower (alpha* digit* bar*)*	{VAR(Lexing.lexeme lexbuf)}
 | digit+                        (* 数字が１個以上 *)
