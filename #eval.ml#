@@ -109,9 +109,10 @@ let rec eval exp env cont =
         let r = eval t1 env (fun v1 -> OK(v1)) in
            begin match r with
              OK(v) -> cont (v)
-            |Exception(n1)-> (*cont (VNumber(n1))*)
-              let newenv  = set_value env t2 (VNumber(n1))
+            |Exception(n1)->
+              let newenv  = set_value (env t2 n1)
                 in eval t3 newenv cont
+             |(_) -> cont
             end
 (*    | Let (arg1, arg2, arg3) ->(*let arg1 = arg2 in arg3 ex: let x=3 in x+2*)
         eval arg2 env

@@ -47,6 +47,8 @@ let rec to_string exp = match exp with
   | Rec (arg1 , arg2 , arg3 , arg4) -> "let rec "^arg1 ^" "^arg2 ^" = " ^ to_string arg3 ^ " in "^to_string arg4
   | Cons(arg1,arg2) ->to_string arg1 ^ " :: " ^ to_string arg2
   | Match(arg1,arg2,arg3,arg4,arg5) -> "match "^to_string arg1 ^ " with [] -> " ^  to_string arg2 ^ " | " ^ arg3 ^" :: "^arg4^" -> "^to_string arg5
+  | Raise(arg1) ->"Error"  ^ to_string arg1
+  | Try(arg1,arg2,arg3) -> "try" ^ to_string arg1 ^ " with Error " ^  arg2  ^ "-> " ^  to_string arg3
 
 
 

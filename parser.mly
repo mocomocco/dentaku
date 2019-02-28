@@ -27,7 +27,7 @@
 %nonassoc ELSE
 %left EQUAL LESS NOTEQUAL LESSEQUAL MOREEQUAL MORE
 %left PLUS MINUS
-%left TIMES
+%left TIMES DIVIDE
 %nonassoc UNARY
 /* nonassoc は結合なし（毎回、かっこを書かなくてはならない）、
    left は左結合、right は右結合 */
@@ -123,4 +123,8 @@ expr:
 | RAISE LPAREN EXCEPTION expr RPAREN
   { Syntax.Raise($4)}
 | TRY expr WITH EXCEPTION VAR ARROW expr
+  {Syntax.Try($2,$5,$7)}
+| RAISE LPAREN ERROR expr RPAREN
+  { Syntax.Raise($4)}
+| TRY expr WITH ERROR VAR ARROW expr
   {Syntax.Try($2,$5,$7)}
